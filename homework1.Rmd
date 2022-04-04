@@ -1,5 +1,5 @@
 ---
-title: "homework1"
+title: "Homework 1"
 output: html_document
 date: '2022-03-31'
 ---
@@ -18,13 +18,84 @@ When you click the **Knit** button a document will be generated that includes bo
 summary(cars)
 ```
 
-## Including Plots
+## Question 1:
 
-You can also embed plots, for example:
+Define supervised and unsupervised learning. What are the difference(s) between them?
 
-```{r pressure, echo=FALSE}
-plot(pressure)
-plot(cars)
+### Supervised learning requires training labeled data. For example, in order to do classification (a supervised learning task), you'll need to first label the data you'll use to train the model to classify data into your labeled groups. Unsupervised learning, in contrast, does not require labeling data explicitly.
+
+## Question 2:
+
+Explain the difference between a regression model and a classification model, specifically in the context of machine learning.
+
+### In regression model, Y is quantitative whereas Y is qualitative. In regression, there are numerical values and in classification there are categorical values.
+
+## Question 3:
+
+Name two commonly used metrics for regression ML problems. Name two commonly used metrics for classification ML problems.
+
+### Two commonly used metrics for regression are Mean Squared Error (MSE) and Root Mean Squared Error (RMSE). Two commonly used metrics for classification are Confusion Matrix and Accuracy.
+
+## Question 4:
+
+As discussed, statistical models can be used for different purposes. These purposes can generally be classified into the following three categories. Provide a brief description of each.
+
+### This is predictive, since we are using past information. This is where section part of question starts.
+### Assuming if they are two different voters this is predictive because the voter knew the candidate and that means they have past information about the candidate. ###This one could also be inferential because we are assuming based on the voter personal conduct that he will vote for that candidate. So we are assessing the quality of our prediction.
+
+## Question 5:
+
+Define mechanistic. Define empirically-driven. How do these model types differ? How are they similar? 
+In general, is a mechanistic or empirically-driven model easier to understand? Explain your choice. 
+Describe how the bias-variance tradeoff is related to the use of mechanistic or empirically-driven models. 
+
+### Mechanistic uses a theory to predict what will happen in the real world. Empirical means based on evidence or observations. Empirical is easier to understand. Bias is the simplifying assumptions made by the model to make the target function easier to approximate. Variance is the amount that the estimate of the target function will change given different training data. Trade-off is tension between the error introduced by the bias and the variance. It is related to Empirical-driven and mechanistic models in that it is a powerful tool for understanding and improving these data-driven models.
+
+ 
+
+```{r , echo=FALSE}
+library("tidyverse")
+library("data.table")
+```
+
+## Exercise 1 
+### I see that bars 15 and 25 look higher and 40 and 45 have the smallest. The histogram does look little symmetric but we have to do additional to confirm that. 
+```{r}
+hist(mpg$hwy)
+```
+
+## Exercise 2
+### I notice that as highway increases, city also increases. I notice a linear relationship between city and highway.
+```{r}
+plot(mpg$hwy, mpg$cty, main="Scatterplot Example",
+   xlab="Highway", ylab="City")
+```
+
+## Exercise 3
+### Dodge produced the most cars and lincoln produced the least cars.
+```{r , echo=FALSE}
+df3 <- data.table(mpg)
+df3[,manufacturer := as.factor(manufacturer)]
+
+ggplot(mpg, aes(y = fct_infreq(manufacturer))) + 
+	geom_bar(stat = 'count') + ylab('manufacturer')
+
+
+```
+
+## Exercise 4
+### From the box plot we can see that there are some outliers and we can notice that as cylinders increase the hwy gas mileage decreases.
+```{r}
+boxplot(mpg$hwy ~ mpg$cyl, xlab = "CYL", ylab = "HWY", col = "Blue")
+```
+## Exercise 5
+### The blue color means it is positively correlated and red means it is negatively correlated. Year and year are the same variables so it is positively corelated but cyl and cty are negativeley corelated because as cylinder number goes up, the city mileage goes down. 
+```{r}
+library(corrplot)
+head(mpg)
+
+mpg1<-cor(mpg[c('displ', 'year', 'cyl', 'cty', 'hwy')])
+corrplot(mpg1, type="lower")
 ```
 
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
